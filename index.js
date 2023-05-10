@@ -26,6 +26,10 @@ app.use(cors({
 }));
 app.use('/api', router);
 
+const options = {
+    key: fs.readFileSync("key.pem"),
+    cert: fs.readFileSync("cert.pem"),
+};
 
 const start = async () => {
     try {
@@ -33,20 +37,21 @@ const start = async () => {
             useNewUrlParser: true,
             useUnifiedTopology: true
         })
-        https
-            .createServer(
-                // Provide the private and public key to the server by reading each
-                // file's content with the readFileSync() method.
-                {
-                    key: fs.readFileSync("key.pem"),
-                    cert: fs.readFileSync("cert.pem"),
-                },
-                app
-            )
-            .listen(4000, () => {
-                console.log("serever is runing at port 4000");
-            });
-        // app.listen(PORT, () => console.log(`server started on ${PORT} PORT`))
+        // https.createServer(options, app).listen(443, console.log('port 443'));
+        // https
+        //     .createServer(
+        //         // Provide the private and public key to the server by reading each
+        //         // file's content with the readFileSync() method.
+        //         {
+        //             key: fs.readFileSync("key.pem"),
+        //             cert: fs.readFileSync("cert.pem"),
+        //         },
+        //         app
+        //     )
+        //     .listen(4000, () => {
+        //         console.log("serever is runing at port 4000");
+        //     });
+        app.listen(PORT, () => console.log(`server started on ${PORT} PORT`))
     } catch (e) {
         console.log(e)
     }
